@@ -2,16 +2,15 @@ import React from "react";
 import AppLayout from "../components/AppLayout";
 import Head from "next/head";
 
-function Home() {
+function Signup() {
   return (
     <>
       <Head>
-        <title>React SNS</title>
+        <title>회원가입 | React SNS</title>
       </Head>
-      <AppLayout>
-        <div>Hello, Next</div>
-      </AppLayout>
+      <AppLayout>Signup Page</AppLayout>
     </>
   );
 }
-export default Home;
+
+export default Signup;
