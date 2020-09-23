@@ -4,6 +4,7 @@ import Head from "next/head";
 
 // components
 import NicknameEditForm from "../components/NicknameEditForm";
+import FollowList from "../components/FollowList";
 
 function Profile() {
   const followerList = [
@@ -23,8 +24,8 @@ function Profile() {
       </Head>
       <AppLayout>
         <NicknameEditForm />
-        <FollowingList header="팔로잉 목록" data={followingList} />
-        <FollowerList header="팔로워 목록" data={followerList} />
+        <FollowList header="팔로잉 목록" data={followingList} />
+        <FollowList header="팔로워 목록" data={followerList} />
       </AppLayout>
     </>
   );
