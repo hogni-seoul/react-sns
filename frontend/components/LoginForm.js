@@ -1,7 +1,9 @@
 import React, { useCallback } from "react";
-import PropTypes from "prop-types";
 import Link from "next/link";
 import useInput from "../hooks/useInput";
+
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import { loginRequestAction } from "../reducers/user";
 
 // components
 import { Form, Input, Button } from "antd";
@@ -9,17 +11,15 @@ import { Form, Input, Button } from "antd";
 // styles
 import styled from "styled-components";
 
-LoginForm.propTypes = {
-  setIsLoggedIn: PropTypes.func.isRequired,
-};
+function LoginForm() {
+  const dispatch = useDispatch();
+  const { isLogginIn } = useSelector((state) => state.user, shallowEqual);
 
-function LoginForm({ setIsLoggedIn }) {
   const [id, onChangeId] = useInput("");
   const [password, onChangePassword] = useInput("");
 
   const onSubmitForm = useCallback(() => {
-    console.log(id, password);
-    setIsLoggedIn(true);
+    dispatch(loginRequestAction({ id, password }));
   }, [id, password]);
 
   return (
@@ -41,7 +41,7 @@ function LoginForm({ setIsLoggedIn }) {
         />
       </div>
       <ButtonWrapper>
-        <Button type="primary" htmlType="submit" loading={false}>
+        <Button type="primary" htmlType="submit" loading={isLogginIn}>
           로그인
         </Button>
         <Link href="signup">

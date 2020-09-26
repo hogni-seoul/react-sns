@@ -1,51 +1,39 @@
-import React, { useState } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import Link from "next/link";
+import { shallowEqual, useSelector } from "react-redux";
 
 // components
 import LoginForm from "./LoginForm";
 import UserProfile from "./UserProfile";
 import { Menu, Input, Row, Col } from "antd";
 
-// styles
-import styled from "styled-components";
-
 AppLayout.propTypes = {
   children: PropTypes.node.isRequired,
 };
 
 function AppLayout({ children }) {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
+  const { isLoggedIn } = useSelector((state) => state.user, shallowEqual);
   return (
     <div>
       <Menu mode="horizontal">
-        <Menu.Item>
+        <Menu.Item key="home">
           <Link href="/">
-            <a>노드버드</a>
+            <a>Witter</a>
           </Link>
         </Menu.Item>
-        <Menu.Item>
+        <Menu.Item key="profile">
           <Link href="/profile">
             <a>프로필</a>
           </Link>
         </Menu.Item>
-        <Menu.Item>
-          <SearchInput enterButton />
-        </Menu.Item>
-        <Menu.Item>
-          <Link href="/signup">
-            <a>회원가입</a>
-          </Link>
+        <Menu.Item key="mail">
+          <Input.Search style={{ verticalAlign: "middle" }} />
         </Menu.Item>
       </Menu>
       <Row gutter={8}>
         <Col xs={24} md={6}>
-          {isLoggedIn ? (
-            <UserProfile setIsLoggedIn={setIsLoggedIn} />
-          ) : (
-            <LoginForm setIsLoggedIn={setIsLoggedIn} />
-          )}
+          {isLoggedIn ? <UserProfile /> : <LoginForm />}
         </Col>
         <Col xs={24} md={12}>
           {children}
@@ -65,7 +53,3 @@ function AppLayout({ children }) {
 }
 
 export default AppLayout;
-
-const SearchInput = styled(Input.Search)`
-  vertical-align: middle;
-`;

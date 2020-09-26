@@ -1,16 +1,15 @@
 import React, { useCallback } from "react";
-import PropTypes from "prop-types";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import { logoutRequestAction } from "../reducers/user";
 
 // components
 import { Card, Avatar, Button } from "antd";
 
-UserProfile.propTypes = {
-  setIsLoggedIn: PropTypes.func,
-};
-
-function UserProfile({ setIsLoggedIn }) {
+function UserProfile() {
+  const dispatch = useDispatch();
+  const { me, isLoggingOut } = useSelector((state) => state.user, shallowEqual);
   const onLogOut = useCallback(() => {
-    setIsLoggedIn(false);
+    dispatch(logoutRequestAction());
   }, []);
 
   return (
@@ -30,8 +29,10 @@ function UserProfile({ setIsLoggedIn }) {
         </div>,
       ]}
     >
-      <Card.Meta title="hogni" avatar={<Avatar>HG</Avatar>} />
-      <Button onClick={onLogOut}>로그아웃</Button>
+      <Card.Meta title={me.nickname} avatar={<Avatar>me.nickname[0]</Avatar>} />
+      <Button onClick={onLogOut} loading={isLoggingOut}>
+        로그아웃
+      </Button>
     </Card>
   );
 }
